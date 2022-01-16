@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Input, Text, Button } from 'react-native-elements'
-import Spacer from './components/Spacer';
+import Spacer from '../components/Spacer';
 import { Context } from './context/authContext';
 import { NavigationEvents } from 'react-navigation';
-import NavLink from './components/NavLink';
+import NavLink from '../components/NavLink';
 
 const SigninScreen = ({ navigation }) => {
     const { state, signin, clearErrorMessage } = useContext(Context);
