@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import HomeScreen from "./src/screens/HomeScreen";
+import MovieDetailScreen from "./src/screens/MovieDetailScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import SigninScreen from "./src/screens/SigninScreen";
+import { Provider as AuthProvider } from './src/screens/context/authContext';
+import { setNavigator } from './src/navigationRef';
+import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const bottomTabNavigator = createBottomTabNavigator({
+  mainFlow: createStackNavigator({
+    Home: HomeScreen,
+    MovieDetail: MovieDetailScreen
+  }),
+  Account: createSwitchNavigator({
+    Signup: RegisterScreen,
+    Signin: SigninScreen,
+    Profile: ProfileScreen
+  }),
 });
+
+
+const App = createAppContainer(bottomTabNavigator);
+
+export default () => {
+  return (
+    <AuthProvider>
+      <App ref={(navigator) => { setNavigator(navigator) }} />
+    </AuthProvider>
+  )
+}
