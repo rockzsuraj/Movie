@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Input, Text, Button } from 'react-native-elements'
 import Spacer from '../components/Spacer';
-import { Context } from './context/authContext';
+import { Context } from '../context/authContext';
 import { NavigationEvents } from 'react-navigation';
 import NavLink from '../components/NavLink';
 
@@ -10,6 +10,10 @@ const SigninScreen = ({ navigation }) => {
     const { state, signin, clearErrorMessage } = useContext(Context);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    useEffect(() => {
+        clearErrorMessage();
+    }, [])
+
     return (
         <View style={styles.container}>
             {/*   <NavigationEvents

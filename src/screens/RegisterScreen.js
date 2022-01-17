@@ -1,18 +1,23 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
-import Spacer from './components/Spacer';
-import { Context as AuthContext } from './context/authContext';
-import { NavigationEvents } from 'react-navigation';
-import NavLink from './components/NavLink';
+import Spacer from '../components/Spacer';
+import { Context as AuthContext } from '../context/authContext'
+import NavLink from '../components/NavLink';
+import { withNavigation } from 'react-navigation';
 
 const RegisterScreen = ({ navigation }) => {
-    const { state, signup, clearErrorMessage } = useContext(AuthContext);
+    const { state, signup, clearErrorMessage, localSignin } = useContext(AuthContext);
     const [userName, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+
+    useEffect(() => {
+        clearErrorMessage();
+        localSignin();
+    }, [])
 
     return (
         <ScrollView>
@@ -44,6 +49,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Button
                     title='Sign up'
                     style={styles.buttonLayout}
+                    // onPress={() => signup({ userName, email, password, confirmPassword, phoneNumber })}
                     onPress={() => signup({ userName, email, password, confirmPassword, phoneNumber })}
                 />
                 <NavLink

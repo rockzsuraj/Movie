@@ -1,15 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native'
-import { Context } from './context/authContext'
+import { Context } from '../context/authContext'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Spacer from './components/Spacer';
+import Spacer from '../components/Spacer';
 
 const ProfileScreen = ({ navigation }) => {
-    const { state, signout } = useContext(Context);
+    // const { state, signout } = useContext(Context);
     const [userDetail, setUserDetail] = useState({});
     const getUserData = async () => {
-        const response = await AsyncStorage.getItem('credential');
+        const response = await AsyncStorage.getItem('user');
         if (response) {
             const user = JSON.parse(response);
             setUserDetail(user);
@@ -19,7 +19,16 @@ const ProfileScreen = ({ navigation }) => {
         console.log('---profile---')
         getUserData()
     }, [])
-
+    const signout = async () => {
+        console.log('signout called')
+        try {
+            await AsyncStorage.removeItem('user');
+            navigation.navigate('Signup');
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    }
     return (
         <View style={styles.container}>
             <Text style={{ fontSize: 48, paddingTop: 50 }}>Profile</Text>
@@ -38,6 +47,7 @@ const ProfileScreen = ({ navigation }) => {
                 //onPress={() => signin({ userName, email })}
                 onPress={() => signout()}
             />
+
         </View>
     )
 }
